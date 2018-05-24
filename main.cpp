@@ -59,7 +59,7 @@ GLUquadricObj *obj;
    toggle to see which rendering style to use. NB Texture doesn't work
    correctly due to the cube being scaled. */
 
-void printtext(int x, int y, string String)
+void printtext(int x, int y, string String,int font)
 {
 //(x,y) is from the bottom left of the window
     glMatrixMode(GL_PROJECTION);
@@ -72,9 +72,23 @@ void printtext(int x, int y, string String)
     glPushAttrib(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
     glRasterPos2i(x,y);
+    if(font==1){
     for (int i=0; i<String.size(); i++)
     {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, String[i]);
+    }
+    }
+    if(font==2){
+    for (int i=0; i<String.size(); i++)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, String[i]);
+    }
+    }
+    if(font==3){
+    for (int i=0; i<String.size(); i++)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, String[i]);
+    }
     }
     glPopAttrib();
     glMatrixMode(GL_PROJECTION);
@@ -86,11 +100,33 @@ void frontscreen(void)
 {
  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
  glEnable(GL_DEPTH_TEST);
-  char string[64];
-    sprintf(string, "something");
-    printtext(50,50,string);
-    sprintf(string, "something");
-    printtext(110,110,string);
+    char string[64];
+    sprintf(string, "BANGALORE INSTITUTE OF TECHNOLOGY");
+    printtext(300,800,string,3);
+    sprintf(string, "DEPARTMENT OF COMPUTER SCIENCE");
+    printtext(340,750,string,2);
+    sprintf(string, "AND ENGINEERING");
+    printtext(400,700,string,2);
+    sprintf(string, "AN OPENGL MINI PROJECT ON:");
+    printtext(345,650,string,3);
+    sprintf(string, "GENERAL ENGINE WORKING");
+    printtext(380,600,string,2);
+    sprintf(string, "Press enter to continue");
+    printtext(390,550,string,1);
+    sprintf(string, "BY:");
+    printtext(50,160,string,2);
+    sprintf(string, "SAAHITH HEGDE");
+    printtext(50,120,string,2);
+    sprintf(string, "1BI15CS135");
+    printtext(50,80,string,2);
+    sprintf(string, "UNDER THE GUIDENCE OF:");
+    printtext(750,160,string,2);
+    sprintf(string, "PROF SHRUTHI B.R");
+    printtext(750,120,string,2);
+    sprintf(string, "PROF KAVITHA K");
+    printtext(750,80,string,2);
+    sprintf(string, "PROF SUSHMA H.R");
+    printtext(750,40,string,2);
 	glutSwapBuffers();
 }
 
@@ -504,9 +540,6 @@ menu(int val)
   case 5:
     key = '0';
     break;
-  case 6:
-    key = '1';
-    break;
   case 7:
     key = '+';
     break;
@@ -531,8 +564,7 @@ create_menu(void)
   glutAddMenuEntry("Animation", 2);
   glutAddMenuEntry("Texture", 3);
   glutAddMenuEntry("Transparency", 4);
-  glutAddMenuEntry("Right Light (0)", 5);
-  glutAddMenuEntry("Left Light (1)", 6);
+  glutAddMenuEntry("Light Source On/Off (0)", 5);
   glutAddMenuEntry("Speed UP", 7);
   glutAddMenuEntry("Slow Down", 8);
 }
@@ -662,7 +694,7 @@ main(int argc, char **argv)
   puts("Crank Speed : '+' = Speed up by 1   '-' = Slow Down by 1");
   puts("Toggle      : 's' = Shading         't' = Texture");
   puts("            : ' ' = Animation       'o' = Transparency");
-  puts("            : '0' = Right Light     '1' = Left Light");
+  puts("            : '0' = Light On        '0' = Light Off");
   puts(" Alternatively a pop up menu with all toggles is attached");
   puts("   to the left mouse button.\n");
 
@@ -672,7 +704,6 @@ main(int argc, char **argv)
   /* Transperancy won't work properly without GLUT_ALPHA */
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
   glutCreateWindow("Miniature Steam Engine");
-
   glutDisplayFunc(mydisplay);
   glutKeyboardFunc(keyboard);
 
